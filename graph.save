@@ -1,0 +1,1 @@
+mc.set("graph", {"jours": ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"], "valeurs": [1, 3, 2, 3, 2, 2, 0]})
