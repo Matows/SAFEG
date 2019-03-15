@@ -56,4 +56,3 @@ class Motor:
     def __del__(self):
         self._pwm.stop()
         GPIO.cleanup()
-        super(object, self).__del__() # Not quite sure of this one
