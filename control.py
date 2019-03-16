@@ -11,7 +11,9 @@ class Motor:
         for pin in out.values():
             GPIO.setup(pin, GPIO.OUT)
 
+        print(freq)
         self._pwm = GPIO.PWM(self.out["ena"], freq)
+        print(dc)
         self._pwm.start(dc)
     
     def forward(self):
