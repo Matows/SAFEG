@@ -11,9 +11,7 @@ class Motor:
         for pin in out.values():
             GPIO.setup(pin, GPIO.OUT)
 
-        print(freq)
         self._pwm = GPIO.PWM(self.out["ena"], freq)
-        print(dc)
         self._pwm.start(dc)
     
     def forward(self):
@@ -37,7 +35,7 @@ class Motor:
             if newDutyCycle < 1 or newDutyCycle > 100 or type(newDutyCycle) != int:
                 raise ValueError("Bad value")
 
-            GPIO.output(self.out["ena"], newDutyCycle)
+            self._pwm.ChangeDutyCycle(newDutyCycle)
             self._dc = newDutyCycle
         
         return locals()
@@ -49,7 +47,7 @@ class Motor:
             return self._freq
 
         def fset(self, newFrecuency):
-            GPIO.output(self.out["ena"], newFrecuency)
+            self._pwm.ChangeFrequency(newFrecuency)
             self._freq = newFrecuency
 
         return locals()
