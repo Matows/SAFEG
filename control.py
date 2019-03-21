@@ -7,6 +7,8 @@ import RPi.GPIO as GPIO
 class Motor:
     def __init__(self, controlPins, freq=1000, dc=100):
         self.controlPins = controlPins
+        self._freq = freq
+        self._dc = dc
 
         GPIO.setmode(GPIO.BOARD)
         for pin in controlPins.values():
