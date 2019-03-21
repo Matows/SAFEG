@@ -3,28 +3,30 @@
 
 import RPi.GPIO as GPIO
 
+
 class Motor:
-    def __init__(self, out={"int1":31,"int2":29,"ena":33}, freq=1000, dc=100):
-        self.out = out
+    def __init__(self, controlPins, freq=1000, dc=100):
+        self.controlPins = controlPins
 
         GPIO.setmode(GPIO.BOARD)
-        for pin in out.values():
+        for pin in controlPins.values():
             GPIO.setup(pin, GPIO.OUT)
+        self.stop()
 
-        self._pwm = GPIO.PWM(self.out["ena"], freq)
+        self._pwm = GPIO.PWM(self.controlPins["pwm"], freq)
         self._pwm.start(dc)
     
     def forward(self):
-        GPIO.output(self.out["int1"], GPIO.HIGH)
-        GPIO.output(self.out["int2"], GPIO.LOW)
+        GPIO.output(self.controlPins["int1"], GPIO.HIGH)
+        GPIO.output(self.controlPins["int2"], GPIO.LOW)
 
     def reverse(self):
-        GPIO.output(self.out["int1"], GPIO.LOW)
-        GPIO.output(self.out["int2"], GPIO.HIGH)
+        GPIO.output(self.controlPins["int1"], GPIO.LOW)
+        GPIO.output(self.controlPins["int2"], GPIO.HIGH)
 
     def stop(self):
-        GPIO.output(self.out["int1"], GPIO.LOW)
-        GPIO.output(self.out["int2"], GPIO.LOW)
+        GPIO.output(self.controlPins["int1"], GPIO.LOW)
+        GPIO.output(self.controlPins["int2"], GPIO.LOW)
 
     def dc():
         
@@ -57,3 +59,16 @@ class Motor:
         self._pwm.stop()
         GPIO.cleanup()
         print("stoped and cleaned up")
+
+class Door(Motor):
+    def __init__(self, controlPins):
+        Motor.__init__(self, controlPins)
+
+    def open(self):
+        pass
+
+    def close(self):
+        pass
+
+motor1 = {"int1": 31,"int2": 29,"pwm": 33}
+motor2 = {"int1": 11,"int2": 13,"pwm": 12}
