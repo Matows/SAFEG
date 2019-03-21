@@ -9,6 +9,7 @@ class Motor:
         self.controlPins = controlPins
         self._freq = freq
         self._dc = dc
+        print(controlPins)
 
         GPIO.setmode(GPIO.BOARD)
         for pin in controlPins.values():
@@ -39,6 +40,7 @@ class Motor:
             if newDutyCycle < 1 or newDutyCycle > 100 or type(newDutyCycle) != int:
                 raise ValueError("Bad value")
 
+            print("DC reset")
             self._pwm.ChangeDutyCycle(newDutyCycle)
             self._dc = newDutyCycle
         
