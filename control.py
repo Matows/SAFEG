@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import RPi.GPIO as GPIO
+from time import sleep
 
 
 class Motor:
@@ -69,10 +70,14 @@ class Door(Motor):
         Motor.__init__(self, controlPins)
 
     def open(self):
-        pass
+        self.forward()
+        sleep(2)
+        self.stop()
 
     def close(self):
-        pass
+        self.reverse()
+        sleep(2)
+        self.stop()
 
 motor1 = {"int1": 31,"int2": 29,"pwm": 33}
 motor2 = {"int1": 11,"int2": 13,"pwm": 12}
