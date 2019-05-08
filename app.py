@@ -4,7 +4,9 @@
 import website
 from threading import Thread
 
-webserver = Thread(target=website.run, daemon=False)
-webserver.start()
-webserver.join() #?
-
+try:
+    webserver = Thread(target=website.run, daemon=False)
+    webserver.start()
+    webserver.join() #?
+except KeyboardInterrupt:
+    exit()

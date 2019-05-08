@@ -16,12 +16,13 @@ class DataManager(object):
         self.db.set("status", {"doorIsOpen": False})
         
     def updateGraph(self, value):
-        time = int(time())
-        self.updateGraphMC(value, time)
-        self.updateGraphFile(value, time)
+        ts = int(time())
+        ts = self.tsToWeekday(ts)
+        self.updateGraphMC(value, ts)
+        self.updateGraphFile(value, ts)
 
     def updateGraphMC(self, value, time):
-        last6Days = self.db.get(key)[1:]
+        last6Days = self.db.get("graph")[1:]
         # Append today
         last6Days.append([time, value])
         self.db.set("graph", last6Days)
@@ -35,22 +36,21 @@ class DataManager(object):
         if timestamp == 0:
             return "None"
         weekdays = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-        print(type(timestamp))
         nbOfWeekday = datetime.fromtimestamp(timestamp).isoweekday() - 1
         return weekdays[nbOfWeekday]
 
     def getLastWeekData(self):
         lastWeek = []
 
-        try:
-            with open("graph.csv", "r") as file:
-                reader = csv.reader(file)
-                allData = [ [int(ts), int(egg)] for ts, egg in reader]
-                lastWeek.extend(allData[-7:])
-        except FileNotFoundError:
-            # Create file
-            with open("graph.csv", "w") as file:
-                file.write("0, 0")
+#       try:
+#           with open("graph.csv", "r") as file:
+#               reader = csv.reader(file)
+#               allData = [ [int(ts), int(egg)] for ts, egg in reader]
+#               lastWeek.extend(allData[-7:])
+#       except FileNotFoundError:
+#           # Create file
+#           with open("graph.csv", "w") as file:
+#               file.write("0, 0")
 
         # if can't get last 7 days, fill with 0
         while len(lastWeek) < 7:

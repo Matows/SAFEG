@@ -7,15 +7,17 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def index():
-    dIO = mc.get("doorIsOpen")
-    graph = mc.get("graph")
+    global db
+    dIO = db.get("doorIsOpen")
+    graph = db.get("graph")
     days = [day for day, _ in graph]
     values = [value for _, value in graph]
     return render_template("index.html", doorIsOpen=bool(dIO), days=days, values=values)
 
 def run():
     try:
-        mc = memcache.Client(['127.0.0.1:11211'])
+        global db
+        db = mc.Client(['127.0.0.1:11211'])
         app.run(debug=False)
     except Exception as e:
         print(e)
