@@ -59,7 +59,8 @@
                             </p>
 
                             <p class="control">
-                                <a class="button is-info">
+                                <form action="/" method="POST">
+                                <button type="submit" name="door" value="{% if doorIsOpen == True %}close{% else %}open{% endif %}" class="button is-info">
                                     <span class="icon">
                                         <i class="fas 
                                             {% if doorIsOpen == True %}
@@ -74,7 +75,8 @@
                                         {% else %}
                                             Ouvrir
                                         {% endif %}
-                                </a>
+                                </button>
+                                </form>
                             </p>
 
                         </div>
